@@ -1,0 +1,74 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+"""user"""
+type User {
+  _id: ID!
+  firstName: String
+  secondName: String
+  middleName: String
+  password: String!
+  email: String!
+}
+
+type Artist {
+  _id: ID!
+  firstName: String
+  secondName: String
+  middleName: String
+  birthDate: String
+  birthPlace: String
+  country: String
+  bands: [ID!]
+  instruments: String
+}
+
+type RemovedItem {
+  acknowledged: String!
+  deletedCount: Boolean!
+}
+
+type Query {
+  user(id: String!): User!
+  artists: [Artist!]!
+  artist(id: Int!): Artist!
+}
+
+type Mutation {
+  register(createUserInput: CreateUserInput!): User!
+  createArtist(createArtistInput: CreateArtistInput!): Artist!
+  updateArtist(updateArtistInput: UpdateArtistInput!): Artist!
+  deleteArtist(id: ID!): RemovedItem!
+}
+
+input CreateUserInput {
+  firstName: String
+  lastName: String
+  middleName: String
+  password: String!
+  email: String!
+}
+
+input CreateArtistInput {
+  firstName: String
+  secondName: String
+  middleName: String
+  birthDate: String
+  birthPlace: String
+  country: String
+  instruments: String
+}
+
+input UpdateArtistInput {
+  firstName: String
+  secondName: String
+  middleName: String
+  birthDate: String
+  birthPlace: String
+  country: String
+  instruments: String
+  id: ID!
+}
