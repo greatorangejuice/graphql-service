@@ -1,3 +1,5 @@
+import { GraphQLInterfaceType, GraphQLScalarType } from "graphql";
+
 export interface IResponse<T> {
   items: Array<T>;
   limit: number;
@@ -8,4 +10,9 @@ export interface IResponse<T> {
 export interface RemovedItem {
   acknowledged: string;
   deletedCount: boolean;
+}
+
+export interface PaginationOptions {
+  limit: number;
+  offset: number;
 }

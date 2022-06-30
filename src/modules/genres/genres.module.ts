@@ -3,6 +3,7 @@ import { GenresService } from './genres.service';
 import { GenresResolver } from './genres.resolver';
 
 @Module({
-  providers: [GenresResolver, GenresService]
+  providers: [GenresResolver, GenresService],
+  exports: [GenresService],
 })
 export class GenresModule {}

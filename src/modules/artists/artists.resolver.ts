@@ -22,7 +22,7 @@ export class ArtistsResolver {
   }
 
   @Query(() => Artist, { name: 'artist' })
-  async findOne(@Args('id', { type: () => Int }) id: number) {
+  async findOne(@Args('id', { type: () => ID }) id: string) {
     return await this.artistsService.findOne(id);
   }
 
@@ -37,7 +37,7 @@ export class ArtistsResolver {
   }
 
   @Mutation(() => RemovedItem)
-  async deleteArtist(@Args('id', { type: () => ID }) id: string) {
+  async removeArtist(@Args('id', { type: () => ID }) id: string) {
     return await this.artistsService.remove(id);
   }
 }

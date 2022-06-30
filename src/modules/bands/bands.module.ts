@@ -3,6 +3,7 @@ import { BandsService } from './bands.service';
 import { BandsResolver } from './bands.resolver';
 
 @Module({
-  providers: [BandsResolver, BandsService]
+  providers: [BandsResolver, BandsService],
+  exports: [BandsService],
 })
 export class BandsModule {}

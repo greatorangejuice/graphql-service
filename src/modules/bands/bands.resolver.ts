@@ -3,6 +3,10 @@ import { BandsService } from './bands.service';
 import { Band } from './entities/band.entity';
 import { CreateBandInput } from './dto/create-band.input';
 import { UpdateBandInput } from './dto/update-band.input';
+import { PaginationOptions } from '../../utils/helper-models';
+import { GraphQLInputObjectType, GraphQLObjectType } from "graphql";
+import { PaginationInput } from "../../utils/dto/pagination.input";
+import { RemovedItem } from "../artists/entities/removeArtist.entity";
 
 @Resolver(() => Band)
 export class BandsResolver {
@@ -14,12 +18,12 @@ export class BandsResolver {
   }
 
   @Query(() => [Band], { name: 'bands' })
-  async findAll() {
-    return await this.bandsService.findAll();
+  async findAll(@Args('paginationInput') paginationInput: PaginationInput) {
+    return await this.bandsService.findAll(paginationInput);
   }
 
   @Query(() => Band, { name: 'band' })
-  async findOne(@Args('id', { type: () => Int }) id: number) {
+  async findOne(@Args('id', { type: () => ID }) id: string) {
     return await this.bandsService.findOne(id);
   }
 
@@ -28,7 +32,7 @@ export class BandsResolver {
     return await this.bandsService.update(updateBandInput.id, updateBandInput);
   }
 
-  @Mutation(() => Band)
+  @Mutation(() => RemovedItem)
   async removeBand(@Args('id', { type: () => ID }) id: string) {
     return await this.bandsService.remove(id);
   }

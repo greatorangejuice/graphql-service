@@ -31,17 +31,63 @@ type RemovedItem {
   deletedCount: Boolean!
 }
 
+type Band {
+  _id: ID!
+  name: String
+  origin: String
+  website: String
+  genres: String
+}
+
+type Genre {
+  _id: ID!
+  name: String
+  description: String
+  country: String
+  year: Float
+}
+
+type Album {
+  _id: ID!
+  name: String
+  released: Float
+  artists: [Artist!]
+  bands: [Band!]
+  genres: [Genre!]
+  image: String
+}
+
 type Query {
   user(id: String!): User!
   artists: [Artist!]!
-  artist(id: Int!): Artist!
+  artist(id: ID!): Artist!
+  bands(paginationInput: PaginationInput!): [Band!]!
+  band(id: ID!): Band!
+  genres: [Genre!]!
+  genre(id: ID!): Genre!
+  albums: [Album!]!
+  album(id: ID!): Album!
+}
+
+input PaginationInput {
+  offset: Float
+  limit: Float
 }
 
 type Mutation {
   register(createUserInput: CreateUserInput!): User!
   createArtist(createArtistInput: CreateArtistInput!): Artist!
   updateArtist(updateArtistInput: UpdateArtistInput!): Artist!
-  deleteArtist(id: ID!): RemovedItem!
+  removeArtist(id: ID!): RemovedItem!
+  createBand(createBandInput: CreateBandInput!): Band!
+  updateBand(updateBandInput: UpdateBandInput!): Band!
+  removeBand(id: ID!): RemovedItem!
+  createGenre(createGenreInput: CreateGenreInput!): Genre!
+  updateGenre(updateGenreInput: UpdateGenreInput!): Genre!
+  removeGenre(id: ID!): RemovedItem!
+  createAlbum(createAlbumInput: CreateAlbumInput!): Album!
+  updateAlbum(updateAlbumInput: UpdateAlbumInput!): Album!
+  removeAlbum(id: ID!): RemovedItem!
 }
 
 input CreateUserInput {
@@ -70,5 +116,40 @@ input UpdateArtistInput {
   birthPlace: String
   country: String
   instruments: String
+  id: ID!
+}
+
+input CreateBandInput {
+  name: String!
+  origin: String
+  website: String
+}
+
+input UpdateBandInput {
+  name: String
+  origin: String
+  website: String
+  id: ID!
+}
+
+input CreateGenreInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateGenreInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: ID!
+}
+
+input CreateAlbumInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateAlbumInput {
+  """Example field (placeholder)"""
+  exampleField: Int
   id: ID!
 }

@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBandInput } from './dto/create-band.input';
 import { UpdateBandInput } from './dto/update-band.input';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { IResponse, RemovedItem } from "../../utils/helper-models";
+import { Band } from './entities/band.entity';
+import { PaginationInput } from '../../utils/dto/pagination.input';
+import { Artist } from "../artists/entities/artist.entity";
 
 @Injectable()
 export class BandsService {
@@ -11,28 +15,44 @@ export class BandsService {
 
   constructor() {
     this.client = axios.create({
-      baseURL: process.env.ARTISTS_URL,
+      baseURL: process.env.BANDS_URL,
       headers: { Authorization: `Bearer ${this.token}` },
     });
   }
 
   async create(createBandInput: CreateBandInput) {
-    return 'This action adds a new band';
+    const response: AxiosResponse<Band> = await this.client.post(
+      '',
+      createBandInput,
+    );
+    return response.data;
   }
 
-  async findAll() {
-    return `This action returns all bands`;
+  async findAll(paginationInput: PaginationInput = { limit: 5, offset: 0 }) {
+    const response: AxiosResponse<IResponse<Band>> = await this.client.get('', {
+      params: {
+        offset: paginationInput.offset,
+        limit: paginationInput.limit,
+      },
+    });
+    return response.data.items;
   }
 
-  async findOne(id: number) {
-    return `This action returns a #${id} band`;
+  async findOne(id: string) {
+    const response: AxiosResponse<Band> = await this.client.get(id);
+    return response.data;
   }
 
-  async update(id: number, updateBandInput: UpdateBandInput) {
-    return `This action updates a #${id} band`;
+  async update(id: string, updateBandInput: UpdateBandInput) {
+    const response: AxiosResponse<Band> = await this.client.put(
+      id,
+      updateBandInput,
+    );
+    return response.data;
   }
 
   async remove(id: string) {
-    return `This action removes a #${id} band`;
+    const response: AxiosResponse<RemovedItem> = await this.client.delete(id);
+    return response.data;
   }
 }

@@ -6,11 +6,17 @@ import { DirectiveLocation, GraphQLDirective } from 'graphql';
 import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { ArtistsModule } from './modules/artists/artists.module';
+import { BandsModule } from './modules/bands/bands.module';
+import { GenresModule } from './modules/genres/genres.module';
+import { AlbumModule } from './modules/album/album.module';
 
 @Module({
   imports: [
     UsersModule,
     ArtistsModule,
+    BandsModule,
+    GenresModule,
+    AlbumModule,
     ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

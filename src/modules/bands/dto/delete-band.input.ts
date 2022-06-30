@@ -4,5 +4,5 @@ import { Field, ID, InputType, PartialType } from '@nestjs/graphql';
 @InputType()
 export class UpdateBandInput extends PartialType(CreateBandInput) {
   @Field(() => ID)
-  id: string;
+  id: number;
 }

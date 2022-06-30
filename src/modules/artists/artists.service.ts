@@ -31,11 +31,12 @@ export class ArtistsService {
     return response.data.items;
   }
 
-  async findOne(id: number) {
-    return `This action returns a #${id} artist`;
+  async findOne(id: string) {
+    const response: AxiosResponse<Artist> = await this.client.get(id);
+    return response.data;
   }
 
-  async update(id: number, updateArtistInput: UpdateArtistInput) {
+  async update(id: string, updateArtistInput: UpdateArtistInput) {
     const response: AxiosResponse<Artist> = await this.client.put(
       id,
       updateArtistInput,

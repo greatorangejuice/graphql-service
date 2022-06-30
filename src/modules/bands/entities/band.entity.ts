@@ -1,9 +1,9 @@
-import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class Band {
   @Field(() => ID)
-  id: string;
+  _id: string;
   @Field({ nullable: true })
   name: string;
   @Field({ nullable: true })
