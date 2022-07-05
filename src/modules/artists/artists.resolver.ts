@@ -15,6 +15,7 @@ import { RemovedItem } from './entities/removeArtist.entity';
 import { BandsModule } from '../bands/bands.module';
 import { Album } from '../album/entities/album.entity';
 import { BandsService } from '../bands/bands.service';
+import { PaginationInput } from '../../utils/dto/pagination.input';
 
 @Resolver(() => Artist)
 export class ArtistsResolver {
@@ -31,8 +32,15 @@ export class ArtistsResolver {
   }
 
   @Query(() => [Artist], { name: 'artists' })
-  async findAll() {
-    return await this.artistsService.findAll();
+  async findAll(
+    @Args({
+      name: 'paginationInput',
+      nullable: true,
+      defaultValue: { limit: 5, offset: 0 },
+    })
+    paginationInput?: PaginationInput,
+  ) {
+    return await this.artistsService.findAll(paginationInput);
   }
 
   @Query(() => Artist, { name: 'artist' })

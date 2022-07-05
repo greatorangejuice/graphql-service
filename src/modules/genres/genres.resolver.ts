@@ -4,6 +4,7 @@ import { Genre } from './entities/genre.entity';
 import { CreateGenreInput } from './dto/create-genre.input';
 import { UpdateGenreInput } from './dto/update-genre.input';
 import { RemovedItem } from '../artists/entities/removeArtist.entity';
+import { PaginationInput } from '../../utils/dto/pagination.input';
 
 @Resolver(() => Genre)
 export class GenresResolver {
@@ -17,8 +18,15 @@ export class GenresResolver {
   }
 
   @Query(() => [Genre], { name: 'genres' })
-  async findAll() {
-    return await this.genresService.findAll();
+  async findAll(
+    @Args({
+      name: 'paginationInput',
+      nullable: true,
+      defaultValue: { limit: 5, offset: 0 },
+    })
+    paginationInput?: PaginationInput,
+  ) {
+    return await this.genresService.findAll(paginationInput);
   }
 
   @Query(() => Genre, { name: 'genre' })

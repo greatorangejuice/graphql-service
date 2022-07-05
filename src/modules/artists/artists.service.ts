@@ -26,8 +26,16 @@ export class ArtistsService {
     return response.data;
   }
 
-  async findAll(): Promise<Array<Artist>> {
-    const response: AxiosResponse<IResponse<Artist>> = await this.client.get();
+  async findAll(paginationInput): Promise<Array<Artist>> {
+    const response: AxiosResponse<IResponse<Artist>> = await this.client.get(
+      '',
+      {
+        params: {
+          offset: paginationInput.offset,
+          limit: paginationInput.limit,
+        },
+      },
+    );
     return response.data.items;
   }
 

@@ -26,14 +26,17 @@ export class GenresService {
     return response.data;
   }
 
-  async findAll() {
-    // const response: AxiosResponse<IResponse<Genre>> = await this.client.get('', {
-    //   params: {
-    //     offset: paginationInput.offset,
-    //     limit: paginationInput.limit,
-    //   },
-    // });
-    const response: AxiosResponse<IResponse<Genre>> = await this.client.get();
+  async findAll(paginationInput) {
+    const response: AxiosResponse<IResponse<Genre>> = await this.client.get(
+      '',
+      {
+        params: {
+          offset: paginationInput.offset,
+          limit: paginationInput.limit,
+        },
+      },
+    );
+    // const response: AxiosResponse<IResponse<Genre>> = await this.client.get();
     return response.data.items;
   }
 

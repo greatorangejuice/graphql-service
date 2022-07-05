@@ -30,7 +30,14 @@ export class BandsResolver {
   }
 
   @Query(() => [Band], { name: 'bands' })
-  async findAll(@Args('paginationInput') paginationInput: PaginationInput) {
+  async findAll(
+    @Args({
+      name: 'paginationInput',
+      nullable: true,
+      defaultValue: { limit: 5, offset: 0 },
+    })
+    paginationInput?: PaginationInput,
+  ) {
     return await this.bandsService.findAll(paginationInput);
   }
 

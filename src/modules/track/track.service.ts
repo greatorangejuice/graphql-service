@@ -14,7 +14,7 @@ export class TrackService {
   constructor() {
     this.client = axios.create({
       baseURL: process.env.TRACKS_URL,
-      headers: { Authorization: process.env.AUTH_TOKEN },
+      // headers: { Authorization: process.env.AUTH_TOKEN },
     });
   }
 
@@ -27,14 +27,17 @@ export class TrackService {
     return response.data;
   }
 
-  async findAll() {
-    // const response: AxiosResponse<IResponse<Track>> = await this.client.get('', {
-    //   params: {
-    //     offset: paginationInput.offset,
-    //     limit: paginationInput.limit,
-    //   },
-    // });
-    const response: AxiosResponse<IResponse<Track>> = await this.client.get('');
+  async findAll(paginationInput) {
+    const response: AxiosResponse<IResponse<Track>> = await this.client.get(
+      '',
+      {
+        params: {
+          offset: paginationInput.offset,
+          limit: paginationInput.limit,
+        },
+      },
+    );
+    // const response: AxiosResponse<IResponse<Track>> = await this.client.get('');
     return response.data.items;
   }
 

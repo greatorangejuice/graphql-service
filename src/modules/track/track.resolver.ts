@@ -17,6 +17,7 @@ import { BandsService } from '../bands/bands.service';
 import { ArtistsService } from '../artists/artists.service';
 import { GenresService } from '../genres/genres.service';
 import { Album } from '../album/entities/album.entity';
+import { PaginationInput } from '../../utils/dto/pagination.input';
 
 @Resolver(() => Track)
 export class TrackResolver {
@@ -36,8 +37,15 @@ export class TrackResolver {
   }
 
   @Query(() => [Track], { name: 'tracks' })
-  async findAll() {
-    return await this.trackService.findAll();
+  async findAll(
+    @Args({
+      name: 'paginationInput',
+      nullable: true,
+      defaultValue: { limit: 5, offset: 0 },
+    })
+    paginationInput?: PaginationInput,
+  ) {
+    return await this.trackService.findAll(paginationInput);
   }
 
   @Query(() => Track, { name: 'track' })
@@ -48,7 +56,6 @@ export class TrackResolver {
   @Mutation(() => Track)
   async updateTrack(
     @Args('updateTrackInput') updateTrackInput: UpdateTrackInput,
-    @Context('token') token: string,
   ) {
     return await this.trackService.update(
       updateTrackInput.id,

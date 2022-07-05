@@ -90,15 +90,15 @@ type Favorite {
 
 type Query {
   user(id: String!): User!
-  artists: [Artist!]!
+  artists(paginationInput: PaginationInput = {offset: 0, limit: 5}): [Artist!]!
   artist(id: ID!): Artist!
-  bands(paginationInput: PaginationInput!): [Band!]!
+  bands(paginationInput: PaginationInput = {offset: 0, limit: 5}): [Band!]!
   band(id: ID!): Band!
-  genres: [Genre!]!
+  genres(paginationInput: PaginationInput = {offset: 0, limit: 5}): [Genre!]!
   genre(id: ID!): Genre!
-  albums: [Album!]!
+  albums(paginationInput: PaginationInput = {offset: 0, limit: 5}): [Album!]!
   album(id: ID!): Album!
-  tracks: [Track!]!
+  tracks(paginationInput: PaginationInput = {offset: 0, limit: 5}): [Track!]!
   track(id: ID!): Track!
   favorites: [Favorite!]!
 }
