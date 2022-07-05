@@ -1,9 +1,9 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Member } from '../../../utils/helper-models';
+import { Genre } from '../../genres/entities/genre.entity';
 
 @ObjectType()
 export class Band {
-  @Field(() => ID)
+  @Field(() => ID, { name: 'id' })
   _id: string;
   @Field({ nullable: true })
   name: string;
@@ -13,6 +13,8 @@ export class Band {
   // members: [Member];
   @Field({ nullable: true })
   website: string;
-  @Field({ nullable: true })
-  genres: string;
+  @Field(() => [Genre], { nullable: true })
+  genres: Genre;
+
+  genresIds: [string];
 }

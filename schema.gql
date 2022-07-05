@@ -14,12 +14,20 @@ type User {
   email: String!
 }
 
-type Band {
+type Genre {
   _id: ID!
+  name: String
+  description: String
+  country: String
+  year: Int
+}
+
+type Band {
+  id: ID!
   name: String
   origin: String
   website: String
-  genres: String
+  genres: [Genre!]
 }
 
 type Artist {
@@ -37,14 +45,6 @@ type Artist {
 type RemovedItem {
   acknowledged: String!
   deletedCount: Boolean!
-}
-
-type Genre {
-  _id: ID!
-  name: String
-  description: String
-  country: String
-  year: Int
 }
 
 type Track {
@@ -140,12 +140,14 @@ input CreateBandInput {
   name: String!
   origin: String
   website: String
+  genresIds: [String!]
 }
 
 input UpdateBandInput {
   name: String
   origin: String
   website: String
+  genresIds: [String!]
   id: ID!
 }
 

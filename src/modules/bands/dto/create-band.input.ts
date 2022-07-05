@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { IsArray } from 'class-validator';
 
 @InputType()
 export class CreateBandInput {
@@ -10,6 +11,8 @@ export class CreateBandInput {
   // members: [Member];
   @Field({ nullable: true })
   website: string;
-  // @Field({ nullable: true })
-  // genres: [Genre];
+
+  @Field(() => [String], { nullable: true })
+  @IsArray()
+  genresIds: string;
 }

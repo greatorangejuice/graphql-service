@@ -2,6 +2,7 @@ import {
   Args,
   ID,
   Mutation,
+  Parent,
   Query,
   ResolveField,
   Resolver,
@@ -12,10 +13,15 @@ import { CreateBandInput } from './dto/create-band.input';
 import { UpdateBandInput } from './dto/update-band.input';
 import { PaginationInput } from '../../utils/dto/pagination.input';
 import { RemovedItem } from '../artists/entities/removeArtist.entity';
+import { Track } from '../track/entities/track.entity';
+import { GenresService } from '../genres/genres.service';
 
 @Resolver(() => Band)
 export class BandsResolver {
-  constructor(private readonly bandsService: BandsService) {}
+  constructor(
+    private readonly bandsService: BandsService,
+    private readonly genresService: GenresService,
+  ) {}
 
   @Mutation(() => Band)
   async createBand(@Args('createBandInput') createBandInput: CreateBandInput) {
@@ -40,5 +46,11 @@ export class BandsResolver {
   @Mutation(() => RemovedItem)
   async removeBand(@Args('id', { type: () => ID }) id: string) {
     return await this.bandsService.remove(id);
+  }
+
+  @ResolveField()
+  async genres(@Parent() band: Band) {
+    const { genresIds } = band;
+    return await this.genresService.findByIDs(genresIds);
   }
 }
