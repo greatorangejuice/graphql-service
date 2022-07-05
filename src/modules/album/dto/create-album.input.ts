@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 import { IsArray, IsOptional } from 'class-validator';
 
 @InputType()
@@ -6,26 +6,26 @@ export class CreateAlbumInput {
   @Field()
   name: string;
 
-  @Field({ nullable: true })
+  @Field(() => Int, { nullable: true })
   @IsOptional()
-  released: string;
+  released: number;
 
-  @Field({ nullable: true })
+  @Field(() => [String], { nullable: true })
   @IsOptional()
   @IsArray()
   artistsIds: string;
 
-  @Field({ nullable: true })
+  @Field(() => [String], { nullable: true })
   @IsOptional()
   @IsArray()
   bandsIds: string;
 
-  @Field({ nullable: true })
+  @Field(() => [String], { nullable: true })
   @IsOptional()
   @IsArray()
   trackIds: string;
 
-  @Field({ nullable: true })
+  @Field(() => [String], { nullable: true })
   @IsArray()
   @IsOptional()
   genresIds: string;

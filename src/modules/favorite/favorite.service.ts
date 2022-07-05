@@ -1,26 +1,51 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFavoriteInput } from './dto/create-favorite.input';
-import { UpdateFavoriteInput } from './dto/update-favorite.input';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { Album } from '../album/entities/album.entity';
+import { IResponse, RemovedItem } from '../../utils/helper-models';
+import { Favorite } from './entities/favorite.entity';
 
 @Injectable()
 export class FavoriteService {
-  create(createFavoriteInput: CreateFavoriteInput) {
-    return 'This action adds a new favorite';
+  private client: AxiosInstance;
+  private token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmJiMDhkYmZlYjdlNTUzMzhiYzEwYWEiLCJmaXJzdE5hbWUiOiJmaXJzdCBuYW1lIiwibGFzdE5hbWUiOiJsYXN0IG5hbWUiLCJlbWFpbCI6Im1ldDkxMjdAZ21haWwuY29tIiwiaWF0IjoxNjU2NTA1NDA0fQ.2gMm6Kx63SWS7U-mFNHUx-kk_2Ezt2OJeybKPn2g0Ac';
+
+  constructor() {
+    this.client = axios.create({
+      baseURL: process.env.ALBUMS_URL,
+      headers: { Authorization: `Bearer ${this.token}` },
+    });
   }
 
-  findAll() {
-    return `This action returns all favorite`;
+  async create(createFavoriteInput: CreateFavoriteInput) {
+    console.log('Fav input', createFavoriteInput);
+    const response: AxiosResponse<Favorite> = await this.client.put(
+      '/add',
+      createFavoriteInput,
+    );
+    return response.data;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} favorite`;
+  async findAll() {
+    // const response: AxiosResponse<IResponse<Favorite>> = await this.client.get('', {
+    //   params: {
+    //     offset: paginationInput.offset,
+    //     limit: paginationInput.limit,
+    //   },
+    // });
+    const response: AxiosResponse<IResponse<Favorite>> = await this.client.get(
+      '',
+    );
+    console.log(response.data.items);
+    return response.data.items;
   }
 
-  update(id: number, updateFavoriteInput: UpdateFavoriteInput) {
-    return `This action updates a #${id} favorite`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} favorite`;
+  async remove(createFavoriteInput: CreateFavoriteInput) {
+    const response: AxiosResponse<RemovedItem> = await this.client.put(
+      'remove',
+      CreateFavoriteInput,
+    );
+    return response.data;
   }
 }

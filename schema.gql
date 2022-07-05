@@ -15,23 +15,33 @@ type User {
 }
 
 type Genre {
-  _id: ID!
+  id: ID!
   name: String
   description: String
   country: String
   year: Int
 }
 
+type Member {
+  id: ID!
+  firstName: String
+  secondName: String
+  middleName: String
+  instrument: String
+  years: [String!]
+}
+
 type Band {
   id: ID!
   name: String
   origin: String
+  members: [Member!]
   website: String
   genres: [Genre!]
 }
 
 type Artist {
-  _id: ID!
+  id: ID!
   firstName: String
   secondName: String
   middleName: String
@@ -39,7 +49,7 @@ type Artist {
   birthPlace: String
   country: String
   bands: [Band!]
-  instruments: String
+  instruments: [String!]
 }
 
 type RemovedItem {
@@ -48,7 +58,7 @@ type RemovedItem {
 }
 
 type Track {
-  _id: ID!
+  id: ID!
   title: String!
   album: Album
   artists: [Artist!]
@@ -59,14 +69,23 @@ type Track {
 }
 
 type Album {
-  _id: ID!
+  id: ID!
   name: String
-  released: Float
+  released: Int
   artists: [Artist!]
   bands: [Band!]
   tracks: [Track!]
   genres: [Genre!]
   image: String
+}
+
+type Favorite {
+  id: ID!
+  userId: ID
+  bands: [Band!]
+  genres: [Genre!]
+  artists: [Artist!]
+  tracks: [Track!]
 }
 
 type Query {
@@ -81,6 +100,7 @@ type Query {
   album(id: ID!): Album!
   tracks: [Track!]!
   track(id: ID!): Track!
+  favorites: [Favorite!]!
 }
 
 input PaginationInput {
@@ -105,6 +125,8 @@ type Mutation {
   createTrack(createTrackInput: CreateTrackInput!): Track!
   updateTrack(updateTrackInput: UpdateTrackInput!): Track!
   removeTrack(id: ID!): Track!
+  addFavorite(createFavoriteInput: CreateFavoriteInput!): Favorite!
+  removeFavorite(createFavoriteInput: CreateFavoriteInput!): Favorite!
 }
 
 input CreateUserInput {
@@ -122,7 +144,8 @@ input CreateArtistInput {
   birthDate: String
   birthPlace: String
   country: String
-  instruments: String
+  bandsIds: [ID!]
+  instruments: [String!]
 }
 
 input UpdateArtistInput {
@@ -132,7 +155,8 @@ input UpdateArtistInput {
   birthDate: String
   birthPlace: String
   country: String
-  instruments: String
+  bandsIds: [ID!]
+  instruments: [String!]
   id: ID!
 }
 
@@ -152,32 +176,36 @@ input UpdateBandInput {
 }
 
 input CreateGenreInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String
+  description: String
+  country: String
+  year: Int
 }
 
 input UpdateGenreInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  name: String
+  description: String
+  country: String
+  year: Int
   id: ID!
 }
 
 input CreateAlbumInput {
   name: String!
-  released: String
-  artistsIds: String
-  bandsIds: String
-  trackIds: String
-  genresIds: String
+  released: Int
+  artistsIds: [String!]
+  bandsIds: [String!]
+  trackIds: [String!]
+  genresIds: [String!]
 }
 
 input UpdateAlbumInput {
   name: String
-  released: String
-  artistsIds: String
-  bandsIds: String
-  trackIds: String
-  genresIds: String
+  released: Int
+  artistsIds: [String!]
+  bandsIds: [String!]
+  trackIds: [String!]
+  genresIds: [String!]
   id: ID!
 }
 
@@ -199,5 +227,10 @@ input UpdateTrackInput {
   artistsIds: [String!]
   bandsIds: [String!]
   genresIds: [String!]
+  id: ID!
+}
+
+input CreateFavoriteInput {
+  type: String!
   id: ID!
 }

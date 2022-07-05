@@ -18,3 +18,10 @@ export interface PaginationOptions {
 }
 
 export class Member {}
+
+export enum IFavoriteType {
+  artists = 'artists',
+  bands = 'bands',
+  genres = 'genres',
+  tracks = 'tracks',
+}

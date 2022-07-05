@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType, Int } from '@nestjs/graphql';
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { Band } from '../../bands/entities/band.entity';
 import { Album } from '../../album/entities/album.entity';
 import { Artist } from '../../artists/entities/artist.entity';
@@ -6,7 +6,7 @@ import { Genre } from '../../genres/entities/genre.entity';
 
 @ObjectType()
 export class Track {
-  @Field(() => ID)
+  @Field(() => ID, { name: 'id' })
   _id: string;
   @Field()
   title: string;

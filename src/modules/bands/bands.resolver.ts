@@ -13,14 +13,15 @@ import { CreateBandInput } from './dto/create-band.input';
 import { UpdateBandInput } from './dto/update-band.input';
 import { PaginationInput } from '../../utils/dto/pagination.input';
 import { RemovedItem } from '../artists/entities/removeArtist.entity';
-import { Track } from '../track/entities/track.entity';
 import { GenresService } from '../genres/genres.service';
+import { ArtistsService } from '../artists/artists.service';
 
 @Resolver(() => Band)
 export class BandsResolver {
   constructor(
     private readonly bandsService: BandsService,
     private readonly genresService: GenresService,
+    private readonly artistsService: ArtistsService,
   ) {}
 
   @Mutation(() => Band)
@@ -52,5 +53,24 @@ export class BandsResolver {
   async genres(@Parent() band: Band) {
     const { genresIds } = band;
     return await this.genresService.findByIDs(genresIds);
+  }
+
+  @ResolveField()
+  async members(@Parent() band: Band) {
+    const { members } = band;
+    // console.log('members', members);
+    const resp = (
+      await Promise.all(
+        members.map(async (member) => {
+          return await this.artistsService.findOne(member._id);
+        }),
+      )
+    ).map((artist, index) => ({
+      ...artist,
+      instrument: members[index].instrument,
+      years: members[index].years,
+    }));
+    // console.log(resp);
+    return resp;
   }
 }

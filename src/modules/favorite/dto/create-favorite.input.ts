@@ -1,7 +1,11 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
+import { IFavoriteType } from '../../../utils/helper-models';
 
 @InputType()
 export class CreateFavoriteInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field()
+  type: IFavoriteType;
+
+  @Field(() => ID)
+  id: string;
 }

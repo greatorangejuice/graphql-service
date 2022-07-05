@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class CreateArtistInput {
@@ -14,8 +14,8 @@ export class CreateArtistInput {
   birthPlace: string;
   @Field({ nullable: true })
   country: string;
-  // @Field({ nullable: true })
-  // bands: [ID];
-  @Field({ nullable: true })
+  @Field(() => [ID], { nullable: true })
+  bandsIds: string;
+  @Field(() => [String], { nullable: true })
   instruments: string;
 }
