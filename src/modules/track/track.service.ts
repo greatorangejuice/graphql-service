@@ -14,7 +14,7 @@ export class TrackService {
   constructor() {
     this.client = axios.create({
       baseURL: process.env.TRACKS_URL,
-      headers: { Authorization: `Bearer ${this.token}` },
+      headers: { Authorization: process.env.AUTH_TOKEN },
     });
   }
 
@@ -22,6 +22,7 @@ export class TrackService {
     const response: AxiosResponse<Track> = await this.client.post(
       '',
       createTrackInput,
+      { headers: { Authorization: process.env.AUTH_TOKEN } },
     );
     return response.data;
   }
@@ -46,8 +47,8 @@ export class TrackService {
     const response: AxiosResponse<Track> = await this.client.put(
       id,
       updateTrackInput,
+      { headers: { Authorization: process.env.AUTH_TOKEN } },
     );
-    console.log(response);
     return response.data;
   }
 

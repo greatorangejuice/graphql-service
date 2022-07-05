@@ -39,7 +39,6 @@ export class BandsService {
 
   async findOne(id: string) {
     const response: AxiosResponse<Band> = await this.client.get(id);
-    console.log('response', response.data);
     return response.data;
   }
 

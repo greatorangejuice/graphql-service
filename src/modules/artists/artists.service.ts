@@ -19,7 +19,6 @@ export class ArtistsService {
   }
 
   async create(createArtistInput: CreateArtistInput): Promise<Artist> {
-    console.log('input', createArtistInput);
     const response: AxiosResponse<Artist> = await this.client.post(
       '',
       createArtistInput,

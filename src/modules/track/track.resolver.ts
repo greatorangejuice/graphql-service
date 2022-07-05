@@ -1,5 +1,6 @@
 import {
   Args,
+  Context,
   ID,
   Mutation,
   Parent,
@@ -47,6 +48,7 @@ export class TrackResolver {
   @Mutation(() => Track)
   async updateTrack(
     @Args('updateTrackInput') updateTrackInput: UpdateTrackInput,
+    @Context('token') token: string,
   ) {
     return await this.trackService.update(
       updateTrackInput.id,

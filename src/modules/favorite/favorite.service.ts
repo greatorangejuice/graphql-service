@@ -19,7 +19,6 @@ export class FavoriteService {
   }
 
   async create(createFavoriteInput: CreateFavoriteInput) {
-    console.log('Fav input', createFavoriteInput);
     const response: AxiosResponse<Favorite> = await this.client.put(
       '/add',
       createFavoriteInput,

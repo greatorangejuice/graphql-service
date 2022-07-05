@@ -35,7 +35,12 @@ import { FavoriteModule } from './modules/favorite/favorite.module';
           }),
         ],
       },
-      context: ({ req }) => ({ headers: req.headers }),
+      context: ({ req }): object => {
+        const token = req.headers.authorization || '';
+        // console.log('token', token);
+        process.env.AUTH_TOKEN = token;
+        return { token };
+      },
     }),
   ],
   controllers: [],
