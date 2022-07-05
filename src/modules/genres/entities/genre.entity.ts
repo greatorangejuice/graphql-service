@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class Genre {
@@ -10,6 +10,6 @@ export class Genre {
   description: string;
   @Field({ nullable: true })
   country: string;
-  @Field({ nullable: true })
+  @Field(() => Int, { nullable: true })
   year: number;
 }

@@ -1,12 +1,17 @@
-import { Args, ID, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  ID,
+  Mutation,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { BandsService } from './bands.service';
 import { Band } from './entities/band.entity';
 import { CreateBandInput } from './dto/create-band.input';
 import { UpdateBandInput } from './dto/update-band.input';
-import { PaginationOptions } from '../../utils/helper-models';
-import { GraphQLInputObjectType, GraphQLObjectType } from "graphql";
-import { PaginationInput } from "../../utils/dto/pagination.input";
-import { RemovedItem } from "../artists/entities/removeArtist.entity";
+import { PaginationInput } from '../../utils/dto/pagination.input';
+import { RemovedItem } from '../artists/entities/removeArtist.entity';
 
 @Resolver(() => Band)
 export class BandsResolver {

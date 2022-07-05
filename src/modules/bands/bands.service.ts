@@ -2,10 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { CreateBandInput } from './dto/create-band.input';
 import { UpdateBandInput } from './dto/update-band.input';
 import axios, { AxiosResponse } from 'axios';
-import { IResponse, RemovedItem } from "../../utils/helper-models";
+import { IResponse, RemovedItem } from '../../utils/helper-models';
 import { Band } from './entities/band.entity';
 import { PaginationInput } from '../../utils/dto/pagination.input';
-import { Artist } from "../artists/entities/artist.entity";
 
 @Injectable()
 export class BandsService {
@@ -40,7 +39,17 @@ export class BandsService {
 
   async findOne(id: string) {
     const response: AxiosResponse<Band> = await this.client.get(id);
+    console.log('response', response.data);
     return response.data;
+  }
+
+  async findByIDs(ids: [string]) {
+    const promises = [];
+    ids.forEach((id) => {
+      console.log('id', id);
+      promises.push(this.findOne(id));
+    });
+    return await Promise.all(promises);
   }
 
   async update(id: string, updateBandInput: UpdateBandInput) {

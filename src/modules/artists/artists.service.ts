@@ -48,4 +48,12 @@ export class ArtistsService {
     const response: AxiosResponse<RemovedItem> = await this.client.delete(id);
     return response.data;
   }
+
+  async findByIDs(ids: [string]) {
+    const promises = [];
+    ids.forEach((id) => {
+      promises.push(this.findOne(id));
+    });
+    return await Promise.all(promises);
+  }
 }

@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { CreateGenreInput } from './dto/create-genre.input';
 import { UpdateGenreInput } from './dto/update-genre.input';
 import axios, { AxiosResponse } from 'axios';
-import { Band } from '../bands/entities/band.entity';
 import { IResponse, RemovedItem } from '../../utils/helper-models';
 import { Genre } from './entities/genre.entity';
 
@@ -54,5 +53,13 @@ export class GenresService {
   async remove(id: string) {
     const response: AxiosResponse<RemovedItem> = await this.client.delete(id);
     return response.data;
+  }
+
+  async findByIDs(ids: [string]) {
+    const promises = [];
+    ids.forEach((id) => {
+      promises.push(this.findOne(id));
+    });
+    return await Promise.all(promises);
   }
 }

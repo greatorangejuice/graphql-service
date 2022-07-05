@@ -1,4 +1,4 @@
-import { GraphQLInterfaceType, GraphQLScalarType } from "graphql";
+import { GraphQLInterfaceType, GraphQLScalarType } from 'graphql';
 
 export interface IResponse<T> {
   items: Array<T>;
@@ -16,3 +16,5 @@ export interface PaginationOptions {
   limit: number;
   offset: number;
 }
+
+export class Member {}

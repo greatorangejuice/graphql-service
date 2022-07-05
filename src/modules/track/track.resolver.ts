@@ -1,35 +1,79 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Args,
+  ID,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { TrackService } from './track.service';
 import { Track } from './entities/track.entity';
 import { CreateTrackInput } from './dto/create-track.input';
 import { UpdateTrackInput } from './dto/update-track.input';
+import { AlbumService } from '../album/album.service';
+import { BandsService } from '../bands/bands.service';
+import { ArtistsService } from '../artists/artists.service';
 
 @Resolver(() => Track)
 export class TrackResolver {
-  constructor(private readonly trackService: TrackService) {}
+  constructor(
+    private readonly trackService: TrackService,
+    private readonly albumService: AlbumService,
+    private readonly bandsService: BandsService,
+    private readonly artistsService: ArtistsService,
+  ) {}
 
   @Mutation(() => Track)
-  createTrack(@Args('createTrackInput') createTrackInput: CreateTrackInput) {
-    return this.trackService.create(createTrackInput);
+  async createTrack(
+    @Args('createTrackInput') createTrackInput: CreateTrackInput,
+  ) {
+    return await this.trackService.create(createTrackInput);
   }
 
-  @Query(() => [Track], { name: 'track' })
-  findAll() {
-    return this.trackService.findAll();
+  @Query(() => [Track], { name: 'tracks' })
+  async findAll() {
+    return await this.trackService.findAll();
   }
 
   @Query(() => Track, { name: 'track' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.trackService.findOne(id);
+  async findOne(@Args('id', { type: () => ID }) id: string) {
+    return await this.trackService.findOne(id);
   }
 
   @Mutation(() => Track)
-  updateTrack(@Args('updateTrackInput') updateTrackInput: UpdateTrackInput) {
-    return this.trackService.update(updateTrackInput.id, updateTrackInput);
+  async updateTrack(
+    @Args('updateTrackInput') updateTrackInput: UpdateTrackInput,
+  ) {
+    return await this.trackService.update(
+      updateTrackInput.id,
+      updateTrackInput,
+    );
   }
 
   @Mutation(() => Track)
-  removeTrack(@Args('id', { type: () => Int }) id: number) {
-    return this.trackService.remove(id);
+  async removeTrack(@Args('id', { type: () => ID }) id: string) {
+    return await this.trackService.remove(id);
+  }
+
+  // @ResolveField()
+  // async albumsTrack(@Parent() track: Track) {
+  //   const { albumId } = track;
+  //   return this.albumService.findOne(albumId);
+  // }
+
+  @ResolveField()
+  async bands(@Parent() track: Track) {
+    const { bandsIds } = track;
+    console.log(bandsIds);
+    const resp = await this.bandsService.findByIDs(bandsIds);
+    console.log(resp);
+    return [];
+  }
+
+  @ResolveField()
+  async artists(@Parent() track: Track) {
+    const { artistsIds } = track;
+    return await this.artistsService.findByIDs(artistsIds);
   }
 }
