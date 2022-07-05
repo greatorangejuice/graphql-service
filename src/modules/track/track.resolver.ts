@@ -60,10 +60,15 @@ export class TrackResolver {
   }
 
   @ResolveField()
+  async album(@Parent() track: Track) {
+    const { albumId } = track;
+    return await this.albumService.findOne(albumId);
+  }
+
+  @ResolveField()
   async bands(@Parent() track: Track) {
     const { bandsIds } = track;
-    return [];
-    // return await this.bandsService.findByIDs(bandsIds);
+    return await this.bandsService.findByIDs(bandsIds);
   }
 
   @ResolveField()
@@ -77,10 +82,4 @@ export class TrackResolver {
     const { genresIds } = track;
     return await this.genresService.findByIDs(genresIds);
   }
-
-  // @ResolveField()
-  // async albums(@Parent() track: Track) {
-  //   const { albumId } = track;
-  //   return await this.albumService.findOne(albumId);
-  // }
 }

@@ -12,7 +12,7 @@ export class CreateTrackInput {
   @Field(() => Int, { nullable: true })
   released: number;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   albumId: string;
 
   @Field(() => [String], { nullable: true })
