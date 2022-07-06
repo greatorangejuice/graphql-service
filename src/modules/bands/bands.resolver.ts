@@ -65,7 +65,8 @@ export class BandsResolver {
   @ResolveField()
   async members(@Parent() band: Band) {
     const { members } = band;
-    // console.log('members', members);
+    console.log('band', band);
+    console.log('members', members);
     const resp = (
       await Promise.all(
         members.map(async (member) => {

@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Genre } from '../../genres/entities/genre.entity';
-import { Member } from '../../artists/entities/members.entity';
+import { Member } from './members.entity';
 
 @ObjectType()
 export class Band {
