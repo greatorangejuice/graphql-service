@@ -56,7 +56,9 @@ export class TrackService {
   }
 
   async remove(id: string) {
-    const response: AxiosResponse<RemovedItem> = await this.client.delete(id);
+    const response: AxiosResponse<RemovedItem> = await this.client.delete(id, {
+      headers: { Authorization: process.env.AUTH_TOKEN },
+    });
     return response.data;
   }
 

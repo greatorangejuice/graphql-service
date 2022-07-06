@@ -1,7 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UsersService } from './users.service';
-import { User } from './entities/user.entity';
+import { JWT, User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
+import { LoginInput } from './dto/login.input';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -15,5 +16,10 @@ export class UsersResolver {
   @Query(() => User, { name: 'user' })
   findOne(@Args('id') id: string) {
     return this.usersService.findOne(id);
+  }
+
+  @Query(() => JWT)
+  async jwt(@Args('loginInput') loginInput: LoginInput) {
+    return await this.usersService.login(loginInput);
   }
 }

@@ -3,6 +3,7 @@ import { CreateUserInput } from './dto/create-user.input';
 import axios, { AxiosResponse } from 'axios';
 import { IResponse } from '../../utils/helper-models';
 import { User } from './entities/user.entity';
+import { LoginInput } from './dto/login.input';
 
 @Injectable()
 export class UsersService {
@@ -25,6 +26,17 @@ export class UsersService {
   async findOne(id: string): Promise<IResponse<User>> {
     const response: AxiosResponse<IResponse<User>> = await axios.get(
       `${process.env.USERS_URL}/${id}`,
+    );
+    return response.data;
+  }
+
+  async login(loginInput: LoginInput) {
+    const response: AxiosResponse = await axios.post(
+      `${process.env.USERS_URL}/login`,
+      loginInput,
+      {
+        headers: { Authorization: process.env.AUTH_TOKEN },
+      },
     );
     return response.data;
   }

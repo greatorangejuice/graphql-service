@@ -37,9 +37,19 @@ import { FavoriteModule } from './modules/favorite/favorite.module';
       },
       context: ({ req }): object => {
         const token = req.headers.authorization || '';
-        // console.log('token', token);
         process.env.AUTH_TOKEN = token;
         return { token };
+      },
+      formatError: (error) => {
+        const graphQLFormattedError = {
+          message:
+            // @ts-ignore
+            error.extensions?.exception?.response?.message || error.message,
+          code: error.extensions?.exception?.code || 'SERVER_ERROR',
+          // @ts-ignore
+          name: error.extensions?.exception?.name || error.name,
+        };
+        return graphQLFormattedError;
       },
     }),
   ],

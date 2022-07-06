@@ -31,7 +31,6 @@ export class BandsResolver {
         return { _id, ...rest };
       },
     );
-    console.log(createBandInput);
     return await this.bandsService.create(createBandInput);
   }
   // const newArrayOfObj = arrayOfObj.map(({key1: stroke, ...rest}) => ({stroke,...rest}));
@@ -54,12 +53,11 @@ export class BandsResolver {
 
   @Mutation(() => Band)
   async updateBand(@Args('updateBandInput') updateBandInput: UpdateBandInput) {
-    // @ts-ignore
-    updateBandInput.members = updateBandInput.members.map((member) => {
-      // @ts-ignore
-      return { ...member, _id: member.id };
-    });
-    console.log(updateBandInput);
+    updateBandInput.members = updateBandInput.members.map(
+      ({ id: _id, ...rest }) => {
+        return { _id, ...rest };
+      },
+    );
     return await this.bandsService.update(updateBandInput.id, updateBandInput);
   }
 

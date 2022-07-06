@@ -14,7 +14,6 @@ export class GenresService {
   constructor() {
     this.client = axios.create({
       baseURL: process.env.GENRES_URL,
-      headers: { Authorization: `Bearer ${this.token}` },
     });
   }
 
@@ -22,6 +21,7 @@ export class GenresService {
     const response: AxiosResponse<Genre> = await this.client.post(
       '',
       createGenreInput,
+      { headers: { Authorization: process.env.AUTH_TOKEN } },
     );
     return response.data;
   }
@@ -41,7 +41,9 @@ export class GenresService {
   }
 
   async findOne(id: string) {
-    const response: AxiosResponse<Genre> = await this.client.get(id);
+    const response: AxiosResponse<Genre> = await this.client.get(id, {
+      headers: { Authorization: process.env.AUTH_TOKEN },
+    });
     return response.data;
   }
 
@@ -49,12 +51,15 @@ export class GenresService {
     const response: AxiosResponse<Genre> = await this.client.put(
       id,
       updateGenreInput,
+      { headers: { Authorization: process.env.AUTH_TOKEN } },
     );
     return response.data;
   }
 
   async remove(id: string) {
-    const response: AxiosResponse<RemovedItem> = await this.client.delete(id);
+    const response: AxiosResponse<RemovedItem> = await this.client.delete(id, {
+      headers: { Authorization: process.env.AUTH_TOKEN },
+    });
     return response.data;
   }
 

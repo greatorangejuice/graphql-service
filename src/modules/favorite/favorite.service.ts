@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFavoriteInput } from './dto/create-favorite.input';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { Album } from '../album/entities/album.entity';
 import { IResponse, RemovedItem } from '../../utils/helper-models';
 import { Favorite } from './entities/favorite.entity';
 
@@ -13,8 +12,7 @@ export class FavoriteService {
 
   constructor() {
     this.client = axios.create({
-      baseURL: process.env.ALBUMS_URL,
-      headers: { Authorization: `Bearer ${this.token}` },
+      baseURL: process.env.FAVOURITES_URL,
     });
   }
 
@@ -22,6 +20,7 @@ export class FavoriteService {
     const response: AxiosResponse<Favorite> = await this.client.put(
       '/add',
       createFavoriteInput,
+      { headers: { Authorization: process.env.AUTH_TOKEN } },
     );
     return response.data;
   }
@@ -33,17 +32,18 @@ export class FavoriteService {
     //     limit: paginationInput.limit,
     //   },
     // });
-    const response: AxiosResponse<IResponse<Favorite>> = await this.client.get(
-      '',
-    );
-    console.log(response.data.items);
-    return response.data.items;
+    const response: AxiosResponse = await this.client.get('', {
+      headers: { Authorization: process.env.AUTH_TOKEN },
+    });
+    console.log('Response ', response.data);
+    return response.data;
   }
 
   async remove(createFavoriteInput: CreateFavoriteInput) {
     const response: AxiosResponse<RemovedItem> = await this.client.put(
       'remove',
       CreateFavoriteInput,
+      { headers: { Authorization: process.env.AUTH_TOKEN } },
     );
     return response.data;
   }

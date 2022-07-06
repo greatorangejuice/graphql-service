@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { IsEmail } from 'class-validator';
 
 @ObjectType({ description: 'user' })
 export class User {
@@ -19,4 +20,10 @@ export class User {
 
   @Field(() => String)
   email: string;
+}
+
+@ObjectType()
+export class JWT {
+  @Field(() => String, { nullable: true })
+  jwt: string;
 }

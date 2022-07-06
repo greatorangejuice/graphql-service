@@ -14,7 +14,6 @@ export class ArtistsService {
   constructor() {
     this.client = axios.create({
       baseURL: process.env.ARTISTS_URL,
-      headers: { Authorization: `Bearer ${this.token}` },
     });
   }
 
@@ -22,6 +21,7 @@ export class ArtistsService {
     const response: AxiosResponse<Artist> = await this.client.post(
       '',
       createArtistInput,
+      { headers: { Authorization: process.env.AUTH_TOKEN } },
     );
     return response.data;
   }
@@ -48,12 +48,15 @@ export class ArtistsService {
     const response: AxiosResponse<Artist> = await this.client.put(
       id,
       updateArtistInput,
+      { headers: { Authorization: process.env.AUTH_TOKEN } },
     );
     return response.data;
   }
 
   async remove(id: string) {
-    const response: AxiosResponse<RemovedItem> = await this.client.delete(id);
+    const response: AxiosResponse<RemovedItem> = await this.client.delete(id, {
+      headers: { Authorization: process.env.AUTH_TOKEN },
+    });
     return response.data;
   }
 

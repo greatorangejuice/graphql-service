@@ -32,7 +32,7 @@ export class FavoriteResolver {
     return await this.favoriteService.create(createFavoriteInput);
   }
 
-  @Query(() => [Favorite], { name: 'favorites' })
+  @Query(() => Favorite, { name: 'favorites' })
   findAll() {
     return this.favoriteService.findAll();
   }
@@ -43,27 +43,33 @@ export class FavoriteResolver {
     return this.favoriteService.remove(input);
   }
 
-  // @ResolveField()
-  // async tracks(@Parent() favorite: Favorite) {
-  //   const { tracksIds } = favorite;
-  //   return this.tracksService.findByIDs(tracksIds);
-  // }
+  @ResolveField()
+  async tracks(@Parent() favorite: Favorite) {
+    const { tracksIds } = favorite;
+    return this.tracksService.findByIDs(tracksIds);
+  }
 
   @ResolveField()
   async bands(@Parent() favorite: Favorite) {
+    console.log('IN BAND');
     const { bandsIds } = favorite;
-    return this.bandsService.findByIDs(bandsIds);
+    console.log('bandsIds', bandsIds);
+    const res = await this.bandsService.findByIDs(bandsIds);
+    console.log('bands', res);
+    return res;
   }
 
   @ResolveField()
   async genres(@Parent() favorite: Favorite) {
     const { genresIds } = favorite;
+    console.log('genresIds', genresIds);
     return this.genresService.findByIDs(genresIds);
   }
 
   @ResolveField()
   async artists(@Parent() favorite: Favorite) {
     const { artistsIds } = favorite;
+    console.log('artistsIds', artistsIds);
     return this.artistsService.findByIDs(artistsIds);
   }
 }

@@ -14,6 +14,10 @@ type User {
   email: String!
 }
 
+type JWT {
+  jwt: String
+}
+
 type Genre {
   id: ID!
   name: String
@@ -87,6 +91,7 @@ type Favorite {
 
 type Query {
   user(id: String!): User!
+  jwt(loginInput: LoginInput!): JWT!
   artists(paginationInput: PaginationInput = {offset: 0, limit: 5}): [Artist!]!
   artist(id: ID!): Artist!
   bands(paginationInput: PaginationInput = {offset: 0, limit: 5}): [Band!]!
@@ -97,7 +102,12 @@ type Query {
   album(id: ID!): Album!
   tracks(paginationInput: PaginationInput = {offset: 0, limit: 5}): [Track!]!
   track(id: ID!): Track!
-  favorites: [Favorite!]!
+  favorites: Favorite!
+}
+
+input LoginInput {
+  password: String!
+  email: String!
 }
 
 input PaginationInput {
