@@ -12,13 +12,13 @@ export class Album {
   name: string;
   @Field(() => Int, { nullable: true })
   released: number;
-  @Field(() => [Artist], { nullable: true })
+  @Field(() => [Artist], { nullable: 'itemsAndList' })
   artists: [Artist];
-  @Field(() => [Band], { nullable: true })
+  @Field(() => [Band], { nullable: 'itemsAndList' })
   bands: [Band];
-  @Field(() => [Track], { nullable: true })
+  @Field(() => [Track], { nullable: 'itemsAndList' })
   tracks: [Track];
-  @Field(() => [Genre], { nullable: true })
+  @Field(() => [Genre], { nullable: 'itemsAndList' })
   genres: [Genre];
   @Field({ nullable: true })
   image: string;

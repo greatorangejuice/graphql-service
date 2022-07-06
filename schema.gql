@@ -35,9 +35,9 @@ type Band {
   id: ID!
   name: String
   origin: String
-  members: [Member!]
+  members: [Member]
   website: String
-  genres: [Genre!]
+  genres: [Genre]
 }
 
 type Artist {
@@ -48,8 +48,8 @@ type Artist {
   birthDate: String
   birthPlace: String
   country: String
-  bands: [Band!]
-  instruments: [String!]
+  bands: [Band]
+  instruments: [String]
 }
 
 type RemovedItem {
@@ -61,31 +61,31 @@ type Track {
   id: ID!
   title: String!
   album: Album
-  artists: [Artist!]
-  bands: [Band!]
+  artists: [Artist]
+  bands: [Band]
   duration: Int
   released: Int
-  genres: [Genre!]
+  genres: [Genre]
 }
 
 type Album {
   id: ID!
   name: String
   released: Int
-  artists: [Artist!]
-  bands: [Band!]
-  tracks: [Track!]
-  genres: [Genre!]
+  artists: [Artist]
+  bands: [Band]
+  tracks: [Track]
+  genres: [Genre]
   image: String
 }
 
 type Favorite {
   id: ID!
   userId: ID
-  bands: [Band!]
-  genres: [Genre!]
-  artists: [Artist!]
-  tracks: [Track!]
+  bands: [Band]
+  genres: [Genre]
+  artists: [Artist]
+  tracks: [Track]
 }
 
 type Query {

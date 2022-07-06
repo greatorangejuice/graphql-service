@@ -1,6 +1,5 @@
 import {
   Args,
-  Context,
   ID,
   Mutation,
   Parent,
@@ -16,7 +15,6 @@ import { AlbumService } from '../album/album.service';
 import { BandsService } from '../bands/bands.service';
 import { ArtistsService } from '../artists/artists.service';
 import { GenresService } from '../genres/genres.service';
-import { Album } from '../album/entities/album.entity';
 import { PaginationInput } from '../../utils/dto/pagination.input';
 
 @Resolver(() => Track)

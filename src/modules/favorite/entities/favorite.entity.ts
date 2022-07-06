@@ -10,13 +10,13 @@ export class Favorite {
   _id: string;
   @Field(() => ID, { nullable: true })
   userId: string;
-  @Field(() => [Band], { nullable: true })
+  @Field(() => [Band], { nullable: 'itemsAndList' })
   bands: [Band];
-  @Field(() => [Genre], { nullable: true })
+  @Field(() => [Genre], { nullable: 'itemsAndList' })
   genres: [Genre];
-  @Field(() => [Artist], { nullable: true })
+  @Field(() => [Artist], { nullable: 'itemsAndList' })
   artists: [Artist];
-  @Field(() => [Track], { nullable: true })
+  @Field(() => [Track], { nullable: 'itemsAndList' })
   tracks: [Track];
 
   bandsIds: [string];
