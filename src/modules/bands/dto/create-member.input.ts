@@ -8,6 +8,4 @@ export class CreateMemberInput {
   instrument: string;
   @Field(() => [String], { nullable: 'itemsAndList' })
   years: string;
-
-  id: string;
 }
