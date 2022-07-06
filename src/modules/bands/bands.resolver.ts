@@ -26,9 +26,15 @@ export class BandsResolver {
 
   @Mutation(() => Band)
   async createBand(@Args('createBandInput') createBandInput: CreateBandInput) {
+    createBandInput.members = createBandInput.members.map(
+      ({ id: _id, ...rest }) => {
+        return { _id, ...rest };
+      },
+    );
+    console.log(createBandInput);
     return await this.bandsService.create(createBandInput);
   }
-
+  // const newArrayOfObj = arrayOfObj.map(({key1: stroke, ...rest}) => ({stroke,...rest}));
   @Query(() => [Band], { name: 'bands' })
   async findAll(
     @Args({
@@ -48,6 +54,12 @@ export class BandsResolver {
 
   @Mutation(() => Band)
   async updateBand(@Args('updateBandInput') updateBandInput: UpdateBandInput) {
+    // @ts-ignore
+    updateBandInput.members = updateBandInput.members.map((member) => {
+      // @ts-ignore
+      return { ...member, _id: member.id };
+    });
+    console.log(updateBandInput);
     return await this.bandsService.update(updateBandInput.id, updateBandInput);
   }
 
@@ -65,20 +77,20 @@ export class BandsResolver {
   @ResolveField()
   async members(@Parent() band: Band) {
     const { members } = band;
-    console.log('band', band);
-    console.log('members', members);
-    const resp = (
+    const idS = [];
+    members.forEach((member) => {
+      idS.push(member._id);
+    });
+    return (
       await Promise.all(
         members.map(async (member) => {
           return await this.artistsService.findOne(member._id);
         }),
       )
     ).map((artist, index) => ({
-      ...artist,
+      artist: artist,
       instrument: members[index].instrument,
       years: members[index].years,
     }));
-    // console.log(resp);
-    return resp;
   }
 }
