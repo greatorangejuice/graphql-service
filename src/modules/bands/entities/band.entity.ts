@@ -11,7 +11,7 @@ export class Band {
   @Field({ nullable: true })
   origin: string;
   @Field(() => [Member], { nullable: 'itemsAndList' })
-  members?: [Member];
+  members: [Member];
   @Field({ nullable: true })
   website: string;
   @Field(() => [Genre], { nullable: 'itemsAndList' })

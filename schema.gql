@@ -132,8 +132,14 @@ type Mutation {
   createTrack(createTrackInput: CreateTrackInput!): Track!
   updateTrack(updateTrackInput: UpdateTrackInput!): Track!
   removeTrack(id: ID!): Track!
-  addFavorite(createFavoriteInput: CreateFavoriteInput!): Favorite!
-  removeFavorite(createFavoriteInput: CreateFavoriteInput!): Favorite!
+  addTrackToFavorites(createFavoriteInput: FavoriteInput!): Favorite!
+  addBandToFavorites(createFavoriteInput: FavoriteInput!): Favorite!
+  addArtistToFavorites(createFavoriteInput: FavoriteInput!): Favorite!
+  addGenreToFavorites(createFavoriteInput: FavoriteInput!): Favorite!
+  removeFavoriteGenre(removeFavoriteInput: FavoriteInput!): Favorite!
+  removeFavoriteArtist(removeFavoriteInput: FavoriteInput!): Favorite!
+  removeFavoriteBand(removeFavoriteInput: FavoriteInput!): Favorite!
+  removeFavoriteTrack(removeFavoriteInput: FavoriteInput!): Favorite!
 }
 
 input CreateUserInput {
@@ -245,7 +251,6 @@ input UpdateTrackInput {
   id: ID!
 }
 
-input CreateFavoriteInput {
-  type: String!
+input FavoriteInput {
   id: ID!
 }

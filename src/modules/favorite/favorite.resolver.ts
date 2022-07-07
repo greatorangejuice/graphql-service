@@ -1,6 +1,5 @@
 import {
   Args,
-  ID,
   Mutation,
   Parent,
   Query,
@@ -9,11 +8,13 @@ import {
 } from '@nestjs/graphql';
 import { FavoriteService } from './favorite.service';
 import { Favorite } from './entities/favorite.entity';
-import { CreateFavoriteInput } from './dto/create-favorite.input';
+import { FavoriteInput } from './dto/favorite.input';
 import { BandsService } from '../bands/bands.service';
 import { GenresService } from '../genres/genres.service';
 import { TrackService } from '../track/track.service';
 import { ArtistsService } from '../artists/artists.service';
+import { IFavoriteType } from '../../utils/helper-models';
+import { RemoveFavoriteInput } from './dto/remove-favorite.input';
 
 @Resolver(() => Favorite)
 export class FavoriteResolver {
@@ -25,11 +26,51 @@ export class FavoriteResolver {
     private readonly artistsService: ArtistsService,
   ) {}
 
+  // @Mutation(() => Favorite)
+  // async addFavorite(
+  //   @Args('createFavoriteInput') createFavoriteInput: CreateFavoriteInput,
+  // ) {
+  //   return await this.favoriteService.create(createFavoriteInput);
+  // }
+
   @Mutation(() => Favorite)
-  async addFavorite(
-    @Args('createFavoriteInput') createFavoriteInput: CreateFavoriteInput,
+  async addTrackToFavorites(
+    @Args('createFavoriteInput') createFavoriteInput: FavoriteInput,
   ) {
-    return await this.favoriteService.create(createFavoriteInput);
+    return await this.favoriteService.create(
+      createFavoriteInput,
+      IFavoriteType.tracks,
+    );
+  }
+
+  @Mutation(() => Favorite)
+  async addBandToFavorites(
+    @Args('createFavoriteInput') createFavoriteInput: FavoriteInput,
+  ) {
+    return await this.favoriteService.create(
+      createFavoriteInput,
+      IFavoriteType.bands,
+    );
+  }
+
+  @Mutation(() => Favorite)
+  async addArtistToFavorites(
+    @Args('createFavoriteInput') createFavoriteInput: FavoriteInput,
+  ) {
+    return await this.favoriteService.create(
+      createFavoriteInput,
+      IFavoriteType.artists,
+    );
+  }
+
+  @Mutation(() => Favorite)
+  async addGenreToFavorites(
+    @Args('createFavoriteInput') createFavoriteInput: FavoriteInput,
+  ) {
+    return await this.favoriteService.create(
+      createFavoriteInput,
+      IFavoriteType.genres,
+    );
   }
 
   @Query(() => Favorite, { name: 'favorites' })
@@ -38,9 +79,23 @@ export class FavoriteResolver {
   }
 
   @Mutation(() => Favorite)
-  removeFavorite(@Args('createFavoriteInput') input: CreateFavoriteInput) {
-    console.log(input);
-    return this.favoriteService.remove(input);
+  removeFavoriteGenre(@Args('removeFavoriteInput') input: FavoriteInput) {
+    return this.favoriteService.remove(input, IFavoriteType.genres);
+  }
+
+  @Mutation(() => Favorite)
+  removeFavoriteArtist(@Args('removeFavoriteInput') input: FavoriteInput) {
+    return this.favoriteService.remove(input, IFavoriteType.artists);
+  }
+
+  @Mutation(() => Favorite)
+  removeFavoriteBand(@Args('removeFavoriteInput') input: FavoriteInput) {
+    return this.favoriteService.remove(input, IFavoriteType.bands);
+  }
+
+  @Mutation(() => Favorite)
+  removeFavoriteTrack(@Args('removeFavoriteInput') input: FavoriteInput) {
+    return this.favoriteService.remove(input, IFavoriteType.tracks);
   }
 
   @ResolveField()
@@ -51,25 +106,20 @@ export class FavoriteResolver {
 
   @ResolveField()
   async bands(@Parent() favorite: Favorite) {
-    console.log('IN BAND');
     const { bandsIds } = favorite;
-    console.log('bandsIds', bandsIds);
     const res = await this.bandsService.findByIDs(bandsIds);
-    console.log('bands', res);
     return res;
   }
 
   @ResolveField()
   async genres(@Parent() favorite: Favorite) {
     const { genresIds } = favorite;
-    console.log('genresIds', genresIds);
     return this.genresService.findByIDs(genresIds);
   }
 
   @ResolveField()
   async artists(@Parent() favorite: Favorite) {
     const { artistsIds } = favorite;
-    console.log('artistsIds', artistsIds);
     return this.artistsService.findByIDs(artistsIds);
   }
 }

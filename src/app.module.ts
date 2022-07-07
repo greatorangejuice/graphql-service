@@ -41,10 +41,15 @@ import { FavoriteModule } from './modules/favorite/favorite.module';
         return { token };
       },
       formatError: (error) => {
+        const errorMessage =
+          // @ts-ignore
+          error.extensions?.exception?.response?.message || error.message;
+        const message = errorMessage.replace(
+          /Cannot return null for non-nullable field/,
+          'Entity does not exist. Try to add new: ',
+        );
         const graphQLFormattedError = {
-          message:
-            // @ts-ignore
-            error.extensions?.exception?.response?.message || error.message,
+          message,
           code: error.extensions?.exception?.code || 'SERVER_ERROR',
           // @ts-ignore
           name: error.extensions?.exception?.name || error.name,
