@@ -24,6 +24,7 @@ $ npm run start:prod
 ## Using
 
 ```bash
+Run microservices. If microservices addresses is not default update .env file.
 Open playground localhost:3000 in a browser
 ```
 
