@@ -86,7 +86,10 @@ export class BandsResolver {
         }),
       )
     ).map((artist, index) => ({
-      artist: artist,
+      // artist: artist,
+      firstName: artist.firstName,
+      secondName: artist.secondName,
+      middleName: artist.middleName,
       instrument: members[index].instrument,
       years: members[index].years,
     }));

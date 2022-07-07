@@ -24,6 +24,6 @@ $ npm run start:prod
 ## Using
 
 ```bash
-Open localhost:3000 in a browser
+Open playground localhost:3000 in a browser
 ```
 
