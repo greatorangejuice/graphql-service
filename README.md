@@ -26,5 +26,7 @@ $ npm run start:prod
 ```bash
 Run microservices. If microservices addresses is not default update .env file.
 Open playground localhost:3000 in a browser
+
+For login use JWT request. Set header in playground: "Authorization": "Bearer token"
 ```
 
